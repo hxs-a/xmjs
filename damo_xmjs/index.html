@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>大坝菜 - 农业产品区域公用品牌</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* 主色调 - 深紫色国潮风 */
+            --primary-purple: #4A235A;
+            --secondary-purple: #6C3483;
+            --light-purple: #9B59B6;
+            --gold: #D4AF37;
+            --light-gold: #F4D03F;
+            --cream: #FDF5E6;
+            --dark-text: #2C1338;
+            --light-text: #F8F4F9;
+            --card-bg: linear-gradient(135deg, #5D2E7A 0%, #3A1A4D 100%);
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(180deg, #FDF5E6 0%, #F5E6D3 50%, #E8D5C4 100%);
+            color: var(--dark-text);
+            line-height: 1.8;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 顶部品牌区 */
+        .header {
+            background: linear-gradient(180deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+        
+        .sun-rays {
+            width: 60px;
+            height: 30px;
+            background: var(--gold);
+            border-radius: 60px 60px 0 0;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                -25px 5px 0 -5px var(--gold),
+                25px 5px 0 -5px var(--gold),
+                -40px 15px 0 -10px var(--gold),
+                40px 15px 0 -10px var(--gold);
+        }
+
+        .leaves {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 45px;
+        }
+
+        .leaves::before,
+        .leaves::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 35px;
+            height: 45px;
+            background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
+            border-radius: 50% 50% 50% 0;
+        }
+        
+        .brand-intro {
+           white-space: pre-line;  /* 识别 \n 并换行显示 */
+        }
+
+        .leaves::before {
+            left: 0;
+            transform: rotate(-30deg);
+        }
+
+        .leaves::after {
+            right: 0;
+            transform: rotate(30deg) scaleX(-1);
+        }
+
+        .logo-text h1 {
+            font-size: 28px;
+            color: var(--light-gold);
+            letter-spacing: 4px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: var(--cream);
+            letter-spacing: 3px;
+            opacity: 0.9;
+        }
+
+        /* 视频区 */
+        .video-section {
+            padding: 20px;
+            background: linear-gradient(180deg, var(--secondary-purple) 0%, #5D2E7A 100%);
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(74, 35, 90, 0.4);
+            border: 3px solid var(--gold);
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+            background: #000;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .video-overlay.hidden {
+            opacity: 0;
+        }
+
+        .play-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: var(--light-gold);
+        }
+
+        .play-btn svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--primary-purple);
+            margin-left: 5px;
+        }
+
+        /* 通用标题 */
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            color: var(--primary-purple);
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            border-radius: 2px;
+        }
+
+        /* 品牌介绍区 */
+        .intro-section {
+            padding: 40px 20px;
+        }
+
+        .intro-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(74, 35, 90, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .intro-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--gold), var(--primary-purple));
+            border-radius: 16px 16px 0 0;
+        }
+
+        .intro-text {
+            color: var(--dark-text);
+            font-size: 16px;
+            line-height: 2;
+            text-align: justify;
+            white-space: pre-line;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin-top: 25px;
+        }
+
+        /* 新闻报道区 */
+        .news-section {
+            padding: 30px 20px;
+        }
+
+        .news-list {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .news-item {
+            background: white;
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--dark-text);
+            transition: all 0.3s;
+            border-left: 4px solid var(--gold);
+            box-shadow: 0 2px 12px rgba(74, 35, 90, 0.08);
+        }
+
+        .news-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(74, 35, 90, 0.15);
+            border-left-color: var(--light-purple);
+        }
+
+        .news-title {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .news-arrow {
+            color: var(--gold);
+            font-size: 18px;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            margin-left: 15px;
+        }
+
+        .news-item:hover .news-arrow {
+            transform: translateX(3px);
+        }
+
+        /* 功能卡片区 */
+        .cards-section {
+            padding: 40px 20px 60px;
+        }
+
+        .cards-grid {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 25px 15px;
+            text-align: center;
+            color: var(--light-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            box-shadow: 0 6px 20px rgba(74, 35, 90, 0.3);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, transparent 50%, rgba(212, 175, 55, 0.3) 50%);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:active {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+        }
+
+        .card:hover::after,
+        .card:active::after {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--light-gold);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 底部 */
+        .footer {
+            background: var(--primary-purple);
+            color: var(--cream);
+            text-align: center;
+            padding: 25px 20px;
+            font-size: 14px;
+        }
+
+        .footer-sub {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        /* 弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--cream);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn 0.3s ease;
+            border: 3px solid var(--gold);
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--primary-purple);
+            color: var(--gold);
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .modal-close:hover {
+            background: var(--secondary-purple);
+        }
+
+        .modal-content {
+            padding: 35px 30px 30px;
+            color: var(--dark-text);
+        }
+
+        .modal-content h2 {
+            color: var(--primary-purple);
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .modal-content h3 {
+            color: var(--secondary-purple);
+            margin: 18px 0 10px;
+            font-size: 18px;
+        }
+
+        .modal-content p {
+            margin-bottom: 12px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* 弹窗图片样式 */
+        .modal-img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(74, 35, 90, 0.15);
+            margin: 15px 0 20px;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* 响应式适配 - 平板与手机 */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 22px;
+            }
+
+            .intro-card {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* 顶部logo适配 */
+            .logo-icon {
+                width: 65px;
+                height: 65px;
+            }
+
+            .sun-rays {
+                width: 48px;
+                height: 24px;
+                box-shadow: 
+                    -20px 4px 0 -5px var(--gold),
+                    20px 4px 0 -5px var(--gold),
+                    -32px 12px 0 -10px var(--gold),
+                    32px 12px 0 -10px var(--gold);
+            }
+
+            .leaves {
+                width: 58px;
+                height: 38px;
+            }
+
+            .leaves::before,
+            .leaves::after {
+                width: 29px;
+                height: 38px;
+            }
+
+            .logo-text h1 {
+                font-size: 22px;
+                letter-spacing: 3px;
+            }
+
+            .logo-text p {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            /* 区块间距适配 */
+            .header {
+                padding: 25px 15px;
+            }
+
+            .video-section {
+                padding: 15px;
+            }
+
+            .video-container {
+                border-width: 2px;
+                border-radius: 10px;
+            }
+
+            .play-btn {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-btn svg {
+                width: 26px;
+                height: 26px;
+            }
+
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .intro-section {
+                padding: 30px 15px;
+            }
+
+            .intro-card {
+                padding: 20px;
+                border-radius: 12px;
+            }
+
+            .intro-text {
+                font-size: 15px;
+                line-height: 1.9;
+            }
+
+            .news-section {
+                padding: 25px 15px;
+            }
+
+            .news-item {
+                padding: 12px 16px;
+                border-radius: 8px;
+            }
+
+            .news-title {
+                font-size: 14px;
+            }
+
+            .cards-section {
+                padding: 30px 15px 50px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .card {
+                padding: 22px 15px;
+                border-radius: 12px;
+            }
+
+            .card-icon {
+                font-size: 32px;
+            }
+
+            .card-title {
+                font-size: 16px;
+            }
+
+            /* 弹窗移动端适配 */
+            .modal-overlay {
+                padding: 15px;
+            }
+
+            .modal {
+                border-width: 2px;
+                border-radius: 12px;
+                max-height: 85vh;
+            }
+
+            .modal-close {
+                top: 12px;
+                right: 12px;
+                width: 32px;
+                height: 32px;
+                font-size: 20px;
+            }
+
+            .modal-content {
+                padding: 28px 20px 22px;
+            }
+
+            .modal-content h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .modal-content h3 {
+                font-size: 16px;
+                margin: 15px 0 8px;
+            }
+
+            .modal-content p {
+                font-size: 14px;
+            }
+
+            .modal-img {
+                border-radius: 8px;
+                border-width: 2px;
+                margin: 12px 0 16px;
+            }
+
+            .footer {
+                padding: 20px 15px;
+                font-size: 13px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .cards-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部品牌区 -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <div class="sun-rays"></div>
+                <div class="leaves"></div>
+            </div>
+            <div class="logo-text">
+                <h1>黑米基双蛋白凝胶-吞咽友好型产品</h1>
+                <p>DABACAI</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- 视频播放区 -->
+    <section class="video-section">
+        <div class="video-container">
+            <video id="brandVideo" controls poster="">
+                <source src="assets/video.mp4" type="video/mp4">
+                您的浏览器不支持视频播放
+            </video>
+            <div class="video-overlay">
+                <div class="play-btn" id="playBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 品牌介绍区 -->
+    <section class="intro-section">
+        <div class="intro-card">
+            <h2 class="section-title">品牌简介</h2>
+            <p class="intro-text" id="brandIntro"></p>
+            <div class="divider"></div>
+        </div>
+    </section>
+
+    <!-- 新闻报道区 -->
+    <section class="news-section">
+        <h2 class="section-title">新闻报道</h2>
+        <div class="news-list" id="newsList"></div>
+    </section>
+
+    <!-- 功能卡片区 -->
+    <section class="cards-section">
+        <h2 class="section-title">了解更多</h2>
+        <div class="cards-grid" id="cardsGrid"></div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <p>&copy; 2026 吞咽友好型品牌</p>
+        <p class="footer-sub">东莞理工学院 · 生命健康技术学院技术支撑</p>
+    </footer>
+
+    <!-- 弹窗容器 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">×</button>
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 配置区域 - 轻松修改内容 ====================
+            
+        const siteConfig = {
+            
+            // 品牌介绍文字
+            brandIntro: `本项目由东莞理工学院生命健康技术学院核心团队牵头，深度依托广东省“百千万工程”专家智库、第二轮农村科技特派员官方帮扶体系搭建专业导师团，由熊舟翼副研究员、肖珊教授、邹水洋副教授三位省市级智库专家全程提供全链条技术支撑，聚焦吞咽障碍人群进食呛咳、营养供给不足两大民生痛点开展研发与产业落地。 \n项目以粤东普宁市里湖镇本地特色黑米为核心原料，独创双蛋白互作凝胶精准调控工艺，研发适配不同吞咽等级、营养均衡的黑米基专用特膳食品，配套形成筛查评估+个性化膳食+产业助农一体化完整精准营养解决方案。项目双向赋能两大领域：一是为吞咽障碍老人、术后进食困难、失能人群提供安全、易吸收的标准化健康膳食保障；二是推动普宁黑米本地粮油精深加工，破解原粮低价售卖困境，带动村集体与农户稳定增收，实现民生康养服务、乡村产业提质双向增效，助力县镇村高质量协同发展。`,
+
+            // 新闻报道列表
+            newsList: [
+                {
+                    title: "双向奔赴结硕果！东莞理工交出 “双百行动” 亮眼成绩单",
+                    url: "https://mp.weixin.qq.com/s?__biz=MzAxNjA5NDIzMA==&mid=2652315252&idx=1&sn=8f75303dc79a73a6a5c8997c81c27f0e&chksm=81320e6d4381cac3e0fd88d7674a3060711a1f66dc8a4103a37f27ec0a8336d5f7951e11b5d6&scene=27"
+                },
+                {
+                    title: "高校专家团队入驻普宁智库，科技特派员打通黑米产业转化链条",
+                    url: "https://edu.gd.gov.cn/jyzxnew/zxlb/gx/content/post_4452026.html"
+                },
+                {
+                    title: "中科院团队系统梳理吞咽食品研究进展，搭建理化调控到临床获益转化新框架",
+                    url: "https://mp.weixin.qq.com/s/aLuBLN53W2N3ax2qrad4pw"
+                }
+            ],
+
+            // 四个功能卡片
+            cards: [
+                {
+                    id: "story",
+                    icon: "📖",
+                    title: "我们的故事",
+                    desc: "品牌发展历程",
+                    content: {
+                        title: "我们的故事",
+                        html: `
+                            <h3>缘起・田间踏察：青年下乡发掘本土宝藏物产</h3>
+                            <p>我们的故事扎根普宁里湖镇的片片黑米稻田，普宁身为粤东优质黑米核心产区，属地亚热带季风气候，常年高温多雨、日照充沛，土壤水文条件适配黑米积累营养物质，是黑米种植的天然沃土。项目响应“百千万工程”乡村振兴号召，扎进乡间地头走访农户、勘察田地。队员们顶着日晒踏勘连片稻田，和本地老稻农交流种植经验，在摸排调研里锁定本地独有的功能性黑米品种，初次察觉到这款黑米潜藏的产业开发潜力，埋下项目创业的种子。</p>
+                            <h3>探验・价值佐证：专业检测解锁黑米硬核营养价值</h3>
+                            <p>团队采集普宁原产地黑米样本，送至深圳市计量质量检测研究院开展全套理化指标专项检测，权威检测报告证实普宁黑米核心活性物质矢车菊素-3-O-葡萄糖苷实测含量达到行业最低标准2.75倍，高浓度花青素赋予黑米“米中黑宝石”的核心价值，具备抗氧化、养护心血管、舒缓慢性炎症多重食补功效。这一原料价值的精准挖掘与科学验证，建立在团队扎实的科研能力体系之上：项目依托东莞理工学院生命健康技术学院专业实验室，凭借多级纵向课题、广东省第二轮农村科技特派员派驻机制，以及熊舟翼、肖珊、邹水洋三位省市级智库专家在特医食品、谷物功能基料、老年营养领域的长期深耕，提前搭建起数字化精准营养评估系统；在黑米吞咽友好特膳产品的全流程研发过程中，团队围绕双蛋白互作凝胶核心工艺、黑米活性物质保留、吞咽适配质构精准调控等关键创新点开展近百组对比试验，同步沉淀出2项国家发明专利及对应国际专利申请，并将原料理化、质构调控、营养吸收相关的核心试验数据整理形成多篇相关SCI学术论文，完成了从田间原料价值验证、实验室机理攻关到产业化产品落地的完整科研论证闭环。</p>
+                            <h3>破局・青春赋能：多维运营盘活黑米产业助农增收</h3>
+                            <p>团队正式启动产业化落地工作：技术岗成员引入现代化加工生产线，把原生黑米加工成代餐粉、烘焙制品等高附加值产品，跳出初级原粮售卖的低利润局限；负责市场、品牌运营的队员活用新媒体内容运营，讲好普宁黑米乡土故事，破除本地物产“酒香怕巷子深”的销路难题；团队搭建“合作社+农户+项目组”利益联结体系，统一管控产销链路，帮农户稳住收购定价、拓宽售卖渠道，拉动村集体营收上涨。项目全员依托过往省级创新创业立项、社会实践积攒的实操经验，以学科科研能力、市场化运营思维双向赋能乡土产业，将普宁田间不起眼的“黑色精灵”，加工成适配大众日常食补需求的优质膳食，用青年创业力量助力县域特色农产品产业化升级，为乡村长效增收注入青春动能。</p>
+                        `
+                    }
+                },
+                {
+                    id: "policy",
+                    icon: "📜",
+                    title: "政策支持",
+                    desc: "政府扶持政策",
+                    content: {
+                        title: "政策支持",
+                        html: `
+                            <h3>对标国家顶层政策，锚定康养产业赛道</h3>
+                            <p>立足健康中国战略布局，国家正大力扶持特殊医学用途配方食品、功能性健康食品研发推广。普宁黑米花青素含量远超国标，具备抗氧化、养护心血管、抗炎舒缓等食补功效，团队依托黑米原料开发代餐粉、烘焙食补制品，可拓展老年适配食补产品线，贴合银发经济发展大势：当下社会老龄化程度加深，银发群体对心血管养护、日常抗氧化食补产品需求持续上涨，项目依托食品学科科研积累深挖黑米营养价值，以科创打磨标准化健康产品，补齐本土平价康养食补产品的供给缺口，顺应国民健康消费升级的政策导向。</p>
+                            <h3>落地地方部署，践行“百千万工程”助农使命</h3>
+                            <p>主动响应广东省“百千万工程”县域乡村振兴工作安排，普宁里湖镇坐拥优质黑米天然种植禀赋，但过往农产品以原粮售卖为主，附加值偏低、农户增收受限。由食品科学与工程专业学生构成的创业队伍，凭借省级大学生创新创业立项、多项科创竞赛沉淀的实操能力，从田间调研、原料检测、深加工生产到新媒体品牌营销全链条介入产业升级：搭建“合作社+农户+团队”产销体系，标准化统购农户黑米原料，规避散户滞销、压价风险；靠现代加工技术拉高产品溢价，依托线上渠道拓宽销路，既盘活粤东普宁本土特色农耕资源，带动农户、村集体稳定增收，助力乡镇特色农业产业化转型，也以高校青年科创力量，为县域乡村产业提质、村镇经济做强注入青春动能，扎实完成地方乡村振兴的落地目标。</p>
+                            <h3>双向政策联动，实现民生、产业双向增益</h3>
+                            <p>国家康养政策打开功能性农产品的市场发展空间，省级乡村振兴政策给予县域产业升级方向支撑，两项政策相辅相成：项目一边借康养赛道挖掘黑米的健康商业价值，一边靠产业升级带动产地富民增收，既把田间原生态的“黑色精灵”，打磨成适配中老年群体食补需求的健康膳食；又以特色产业做强普宁村镇集体经济，达成“便民康养、乡村共富”两大民生目标，以青年创业实践完成政策价值的具象落地。</p>
+                        `
+                    }
+                },
+                {
+                    id: "tech",
+                    icon: "🔬",
+                    title: "原料检测报告",
+                    desc: "质量保障",
+                    content: {
+                        title: "原料检测报告",
+                        html: `
+                            <img src="https://picsum.photos/seed/dabacai-tech/600/320" alt="技术检测实验室" class="modal-img">
+                            <h3>高校技术支撑</h3>
+                            <p>东莞理工学院提供全面技术支撑，涵盖农产品质量检测、生产技术改良、数字化营销等多个领域，为品牌发展注入科技动力。</p>
+                            <h3>质量检测体系</h3>
+                            <p>所有黑米原料均统一送至深圳市计量质量检测研究院（SMQ） 完成全套营养、安全理化检测，出具具备法定效力权威检测报告，核心指标矢车菊素 - 3-O - 葡萄糖苷含量为行业最低标准 2.75 倍，重金属、农残等安全指标全部符合国标特膳原料准入标准</p>
+                            // <h3>数字赋能</h3>
+                            // <p>运用物联网、大数据等数字技术，实现生产过程可视化、产品溯源可追踪，提升品牌科技含量。</p>
+                        `
+                    }
+                },
+                {
+                    id: "product",
+                    icon: "🥬",
+                    title: "产品介绍",
+                    desc: "产品展示",
+                    content: {
+                        title: "产品介绍",
+                        html: `
+                            <img src="assets/001-1.jpg"alt="优质黑米农产品" class="modal-img">
+                            <img src="assets/001-2.jpg"alt="优质黑米农产品" class="modal-img">
+                            <img src="assets/001-3.jpg"alt="优质黑米农产品" class="modal-img">
+                            <h3>潮善农业・黑米威化饼</h3>
+                            <p>天然谷香、轻卡无而外添加蔗糖，潮汕职业技术学院联合提供技术支持；<br>净含量：62.5 克（6.25g×10 独立小包装）散装称重；<br>依托普宁高花青素黑米基底开发日常轻食补烘焙产品，适配中老年日常休闲食补，兼顾便携与低负担饮食需求。</p>
+                            <img src="assets/002-1.jpg"alt="优质黑米农产品" class="modal-img">
+                            <img src="assets/002-2.jpg"alt="优质黑米农产品" class="modal-img">
+                            <img src="assets/002-3.jpg"alt="优质黑米农产品" class="modal-img">
+                            <h3> 巴稻魔芋免煮米饭</h3>
+                            <p>潮汕院校联合研发轻食代餐产品；<br>低脂免煮，仅需一杯开水冲泡即可食用，适配独居老人、术后人群、吞咽轻度障碍人群便捷正餐需求，黑米搭配魔芋优化碳水结构，均衡膳食纤维。</p>
+                            <img src="assets/003.png"alt="优质黑米农产品" class="modal-img">
+                            <h3>黑米香系列双蛋白凝胶特膳（项目核心吞咽专用产品）</h3>
+                            <h4>双蛋白黑米营养粉</h4>
+                            <p>净含量 120g（60g×2 杯）<br>
+                                核心技术：项目自研双蛋白互作凝胶前置原料，科学配比黑米活性营养，粉质细腻易冲调，易吞咽、好吸收；<br>适配轻度吞咽障碍、日常老年营养补充，配套自研营养评估系统，扫码填写吞咽障碍问卷，获取个性化营养搭配方案。</p>
+                            <h4>双蛋白黑米营养凝胶</h4>
+                            <p>净含量 25g（5 独立袋装凝胶成品）<br>
+                                依托熊舟翼团队省高校重点专项双蛋白质构调控核心技术，精准匹配中重度吞咽障碍人群食团稠度标准，科学营养配比，无需二次加工，开袋即食，无呛咳风险，专为失能、脑梗术后、老年重度吞咽困难人群设计，完整保留黑米高花青素活性营养，兼顾进食安全与长期营养供给。</p>
+
+
+                        `
+                    }
+                }
+            ],
+
+            // 视频地址
+            videoUrl: "assets/video.mp4"
+        };
+
+        // ==================== 页面渲染 ====================
+
+        // 渲染品牌介绍
+        document.getElementById('brandIntro').textContent = siteConfig.brandIntro;
+
+        // 渲染新闻列表
+        const newsListEl = document.getElementById('newsList');
+        siteConfig.newsList.forEach(news => {
+            const item = document.createElement('a');
+            item.className = 'news-item';
+            item.href = news.url;
+            item.target = '_blank';
+            item.innerHTML = `
+                <span class="news-title">${news.title}</span>
+                <span class="news-arrow">→</span>
+            `;
+            newsListEl.appendChild(item);
+        });
+
+        // 渲染功能卡片
+        const cardsGrid = document.getElementById('cardsGrid');
+        siteConfig.cards.forEach(card => {
+            const cardEl = document.createElement('div');
+            cardEl.className = 'card';
+            cardEl.dataset.id = card.id;
+            cardEl.innerHTML = `
+                <div class="card-icon">${card.icon}</div>
+                <div class="card-title">${card.title}</div>
+                <div class="card-desc">${card.desc}</div>
+            `;
+            cardEl.addEventListener('click', () => openModal(card.content));
+            cardsGrid.appendChild(cardEl);
+        });
+
+        // ==================== 视频控制 ====================
+
+        const video = document.getElementById('brandVideo');
+        const playBtn = document.getElementById('playBtn');
+        const overlay = document.querySelector('.video-overlay');
+
+        playBtn.addEventListener('click', () => {
+            video.play();
+            overlay.classList.add('hidden');
+        });
+
+        video.addEventListener('pause', () => {
+            overlay.classList.remove('hidden');
+        });
+
+        video.addEventListener('play', () => {
+            overlay.classList.add('hidden');
+        });
+
+        // ==================== 弹窗控制 ====================
+
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalContent = document.getElementById('modalContent');
+        const modalClose = document.getElementById('modalClose');
+
+        function openModal(content) {
+            modalContent.innerHTML = `<h2>${content.title}</h2>${content.html}`;
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // 禁止iOS双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
